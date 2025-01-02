@@ -13,7 +13,8 @@ app = Flask(__name__)
 # Define the logger_name to avoid the AttributeError
 app.logger_name = 'flask_app'  # Set the logger_name
 
-CORS(app)  # Enable CORS for all routes
+# Specify allowed origins for CORS
+CORS(app, origins=["https://dulcet-dasik-6d8140.netlify.app"])  # Change this to match your frontend domain
 
 # Flask configuration
 app.config['SECRET_KEY'] = '20061968'
