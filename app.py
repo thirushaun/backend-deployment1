@@ -2,6 +2,9 @@ from flask import Flask, request, jsonify
 from flask_mail import Mail, Message
 from flask_cors import CORS  # Import CORS to handle cross-origin requests
 import datetime
+# Fix for Python 3.10+ compatibility with Iterable
+import collections.abc
+collections.Iterable = collections.abc.Iterable  # Fix for Python 3.10+
 
 # Initialize Flask app
 app = Flask(__name__)
