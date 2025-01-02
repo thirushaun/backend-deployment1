@@ -8,6 +8,10 @@ import collections.abc
 collections.Iterable = collections.abc.Iterable  # Fix for Python 3.10+
 
 app = Flask(__name__)
+
+# Define the logger_name to avoid the AttributeError
+app.logger_name = 'flask_app'  # Set the logger_name
+
 CORS(app)  # Enable CORS for all routes
 
 # Flask configuration
