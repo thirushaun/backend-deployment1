@@ -3,51 +3,30 @@ from flask_mail import Mail, Message
 from flask_cors import CORS  # Import CORS to handle cross-origin requests
 import datetime
 
-# Fix for Python 3.10+ compatibility with Iterable
-import collections.abc
-collections.Iterable = collections.abc.Iterable  # Fix for Python 3.10+
-
 # Initialize Flask app
 app = Flask(__name__)
 
-# Define the logger_name to avoid the AttributeError
-app.logger_name = 'flask_app'  # Set the logger_name
-
-# Specify allowed origins for CORS
-CORS(app, origins=["https://dulcet-dasik-6d8140.netlify.app"])  # Change this to match your frontend domain
+# CORS - Enable it for your frontend domain (Netlify)
+CORS(app, resources={r"/*": {"origins": "https://dulcet-dasik-6d8140.netlify.app"}})  # Replace with your frontend domain
 
 # Flask configuration
 app.config['SECRET_KEY'] = '20061968'
-app.config['MAIL_SERVER'] = 'smtp.mail.yahoo.com'  # Yahoo SMTP server
+app.config['MAIL_SERVER'] = 'smtp.mail.yahoo.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'thirushaun74@yahoo.com'
-app.config['MAIL_PASSWORD'] = 'tnqcbjvhjvuieevs'  # Yahoo App Password
+app.config['MAIL_PASSWORD'] = 'tnqcbjvhjvuieevs'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 
 mail = Mail(app)
 
-# Sample Public Holidays (Johor)
+# Public holidays (example)
 PUBLIC_HOLIDAYS = [
     datetime.date(2025, 1, 29),  # Chinese New Year
     datetime.date(2025, 1, 30),  # Chinese New Year
     datetime.date(2025, 2, 11),  # Thaipusam
     datetime.date(2025, 3, 3),  # Awal Ramadan
-    datetime.date(2025, 3, 23),  # Sultan of Johor's Birthday
-    datetime.date(2025, 3, 24),  # Sultan of Johor's Birthday
-    datetime.date(2025, 3, 31),  # Hari Raya Aidilfitri
-    datetime.date(2025, 4, 1),  # Hari Raya Aidilfitri Holiday
-    datetime.date(2025, 5, 12),  # Wesak Day
-    datetime.date(2025, 6, 2),  # Agong's Birthday
-    datetime.date(2025, 6, 7),  # Hari Raya Haji
-    datetime.date(2025, 6, 29),  # Awal Muharram
-    datetime.date(2025, 7, 31),  # Hari Hol Almarhum Sultan Iskandar
-    datetime.date(2025, 8, 31),  # Merdeka Day
-    datetime.date(2025, 9, 1),  # Merdeka Day Holiday
-    datetime.date(2025, 9, 5),  # Prophet Muhammad's Birthday
-    datetime.date(2025, 9, 16),  # Malaysia Day
-    datetime.date(2025, 10, 20),  # Deepavali
-    datetime.date(2025, 12, 25) # Christmas
+    # Add other holidays as needed
 ]
 
 appointments = []
@@ -65,7 +44,7 @@ def book_appointment():
     data = request.json
 
     name = data.get('name')
-    email = data.get('email')  # Patient's email
+    email = data.get('email')
     phone = data.get('phone')
     service = data.get('service')
     date = datetime.datetime.strptime(data.get('date'), '%Y-%m-%d').date()
@@ -84,16 +63,14 @@ def book_appointment():
     }
     appointments.append(appointment)
 
-    # Send Email to Patient and Clinic
+    # Send email to patient and clinic
     try:
-        # Email to the patient
         patient_msg = Message('Appointment Confirmation',
                               sender='thirushaun74@yahoo.com',
                               recipients=[email])
         patient_msg.body = f"Dear {name},\n\nYour appointment for {service} is confirmed on {date} at {time}.\n\nRegards,\nKlinik Mediviron"
         mail.send(patient_msg)
 
-        # Email to the clinic
         clinic_msg = Message('New Appointment Notification',
                              sender='thirushaun74@yahoo.com',
                              recipients=['thirushaun74@yahoo.com'])
