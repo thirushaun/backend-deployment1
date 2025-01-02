@@ -19,8 +19,24 @@ mail = Mail(app)
 
 # Sample Public Holidays (Johor)
 PUBLIC_HOLIDAYS = [
-    datetime.date(2025, 1, 1),  # New Year's Day
-    datetime.date(2025, 5, 1),  # Labor Day
+    datetime.date(2025, 1, 29),  # Chinese New Year
+    datetime.date(2025, 1, 30),  # Chinese New Year
+    datetime.date(2025, 2, 11),  # Thaipusam
+    datetime.date(2025, 3, 3),  # Awal Ramadan
+    datetime.date(2025, 3, 23),  # Sultan of Johor's Birthday
+    datetime.date(2025, 3, 24),  # Sultan of Johor's Birthday
+    datetime.date(2025, 3, 31),  # Hari Raya Aidilfitri
+    datetime.date(2025, 4, 1),  # Hari Raya Aidilfitri Holiday
+    datetime.date(2025, 5, 12),  # Wesak Day
+    datetime.date(2025, 6, 2),  # Agong's Birthday
+    datetime.date(2025, 6, 7),  # Hari Raya Haji
+    datetime.date(2025, 6, 29),  # Awal Muharram
+    datetime.date(2025, 7, 31),  # Hari Hol Almarhum Sultan Iskandar
+    datetime.date(2025, 8, 31),  # Merdeka Day
+    datetime.date(2025, 9, 1),  # Merdeka Day Holiday
+    datetime.date(2025, 9, 5),  # Prophet Muhammad's Birthday
+    datetime.date(2025, 9, 16),  # Malaysia Day
+    datetime.date(2025, 10, 20),  # Deepavali
     datetime.date(2025, 12, 25) # Christmas
 ]
 
