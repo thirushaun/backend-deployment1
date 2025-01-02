@@ -1,21 +1,23 @@
 from flask import Flask, request, jsonify
 from flask_mail import Mail, Message
-from flask_cors import CORS  # Import CORS for cross-origin requests
+from flask_cors import CORS  # Import CORS to handle cross-origin requests
 import datetime
-import logging
 
-# Initialize the app
+# Fix for Python 3.10+ compatibility with Iterable
+import collections.abc
+collections.Iterable = collections.abc.Iterable  # Fix for Python 3.10+
+
+# Initialize Flask app
 app = Flask(__name__)
 
-# Manually configure the logger to avoid 'logger_name' error
-app.logger.setLevel(logging.INFO)
+# Define the logger_name to avoid the AttributeError
+app.logger_name = 'flask_app'  # Set the logger_name
 
-# Enable CORS for all routes
-CORS(app)  
+CORS(app)  # Enable CORS for all routes
 
-# Flask configuration for emails
+# Flask configuration
 app.config['SECRET_KEY'] = '20061968'
-app.config['MAIL_SERVER'] = 'smtp.mail.yahoo.com'
+app.config['MAIL_SERVER'] = 'smtp.mail.yahoo.com'  # Yahoo SMTP server
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'thirushaun74@yahoo.com'
 app.config['MAIL_PASSWORD'] = 'tnqcbjvhjvuieevs'  # Yahoo App Password
@@ -24,7 +26,7 @@ app.config['MAIL_USE_SSL'] = True
 
 mail = Mail(app)
 
-# Define the public holidays
+# Sample Public Holidays (Johor)
 PUBLIC_HOLIDAYS = [
     datetime.date(2025, 1, 29),  # Chinese New Year
     datetime.date(2025, 1, 30),  # Chinese New Year
@@ -44,7 +46,7 @@ PUBLIC_HOLIDAYS = [
     datetime.date(2025, 9, 5),  # Prophet Muhammad's Birthday
     datetime.date(2025, 9, 16),  # Malaysia Day
     datetime.date(2025, 10, 20),  # Deepavali
-    datetime.date(2025, 12, 25)  # Christmas
+    datetime.date(2025, 12, 25) # Christmas
 ]
 
 appointments = []
@@ -81,7 +83,7 @@ def book_appointment():
     }
     appointments.append(appointment)
 
-    # Send email notifications to the patient and the clinic
+    # Send Email to Patient and Clinic
     try:
         # Email to the patient
         patient_msg = Message('Appointment Confirmation',
